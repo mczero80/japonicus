@@ -10,6 +10,7 @@ Discord Group: `https://discord.gg/kYKHXnV`
 ## Instructions
 Japonicus works on `python>=3.6`!
 
+```
 > Install gekko, then clone this repo and install dependencies:
 
 $ git clone https://github.com/Gab0/japonicus.git
@@ -19,6 +20,7 @@ $ sudo python3 -m pip install cython
 $ sudo python3 -m pip install pandas 
 $ sudo pip install -r requirements.txt
    > make sure pip session runs for python3.6 --> $sudo pip3 install -r requirements.txt
+```
 
 Check wiki for more instructions on setup, workflow, methods, etc.
 
