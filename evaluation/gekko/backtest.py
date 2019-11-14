@@ -33,11 +33,12 @@ def runBacktest(
     TradeSetting,
     Dataset,
     candleSize=10,
+    historySize=10,
     gekko_config=None,
     Debug=False,
 ):
     gekko_config = createConfig(
-        TradeSetting, Dataset.specifications, Dataset.daterange, candleSize,
+        TradeSetting, Dataset.specifications, Dataset.daterange, candleSize, historySize,
         gekko_config, Debug
     )
     url = GekkoInstanceUrl + '/api/backtest'
@@ -47,6 +48,7 @@ def runBacktest(
     }
     try:
         result = httpPost(url, gekko_config)
+        #print (gekko_config)
         # sometime report is False(not dict)
         if type(result['performanceReport']) is bool:
             print("Warning: performanceReport not found, probable Gekko fail!")
@@ -76,6 +78,7 @@ def Evaluate(backtestconf, Datasets, phenotype, GekkoInstanceUrl):
             phenotype,
             Dataset,
             candleSize=backtestconf.candleSize,
+            historySize=backtestconf.historySize,
             Debug=backtestconf.gekkoDebug,
         )
         for Dataset in Datasets
@@ -112,7 +115,7 @@ def Evaluate(backtestconf, Datasets, phenotype, GekkoInstanceUrl):
 
 def createConfig(
         TradeSetting, Database, DateRange,
-        candleSize=10, gekko_config=None, Debug=False
+        candleSize=10, historySize=10, gekko_config=None, Debug=False
 ):
     TradeMethod = list(TradeSetting.keys())[0]
     CONFIG = {
@@ -131,7 +134,7 @@ def createConfig(
             "enabled": True,
             "method": TradeMethod,
             "candleSize": candleSize,  # candleSize: smaller = heavier computation + better possible results;
-            "historySize": 10,
+            "historySize": historySize,
         },
         TradeMethod: TradeSetting[TradeMethod],
         "backtest": {"daterange": DateRange},
